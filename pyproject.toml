@@ -1,0 +1,13 @@
+[project]
+name = "tradingbot"
+version = "0.1.0"
+description = "Daily-bar ETF trading research: a trend-switch core plus short-term sleeves"
+requires-python = ">=3.10"
+dependencies = ["pandas>=2.0", "numpy", "pyarrow", "pyyaml", "yfinance"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
