@@ -1,12 +1,15 @@
 [project]
 name = "tradingbot"
 version = "0.1.0"
-description = "Daily-bar ETF trading research: a trend-switch core plus short-term sleeves"
+description = "ETF core-and-sleeves research engine and a Kalshi weather-market bot"
 requires-python = ">=3.10"
-dependencies = ["pandas>=2.0", "numpy", "pyarrow", "pyyaml", "yfinance"]
+dependencies = ["pandas>=2.0", "numpy", "pyarrow", "pyyaml", "yfinance", "requests", "cryptography"]
 
 [project.optional-dependencies]
 dev = ["pytest"]
+
+[tool.setuptools]
+packages = ["tradingbot", "kalshibot"]
 
 [tool.pytest.ini_options]
 pythonpath = ["."]

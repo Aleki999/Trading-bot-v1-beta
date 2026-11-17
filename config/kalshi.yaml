@@ -1,0 +1,27 @@
+# Settings for the Kalshi weather bot. Code reads every number from here.
+
+series_ticker: KXHIGHAUS        # Kalshi daily high temperature, Austin
+station:
+  name: Austin-Bergstrom (KAUS)
+  lat: 30.1945
+  lon: -97.6699
+target_day: tomorrow            # tomorrow | today, in the station's time zone
+
+model:
+  spread_f: 3.0                 # standard deviation of the bell curve around the forecast high
+  min_edge_points: 10.0         # fair chance minus ask, in percentage points, needed to buy
+
+limits:
+  max_spend: 1.00               # dollars per trade, fee included
+  max_trades_per_day: 1
+  fee_rate: 0.07                # taker fee = fee_rate x contracts x price x (1 - price), rounded up to a cent
+
+run:
+  dry_run: true                 # true = log paper trades only. Live also needs --live and API keys.
+  poll_minutes: 5
+  data_dir: kalshi_data
+
+api:
+  kalshi_base: https://api.elections.kalshi.com/trade-api/v2
+  weather_base: https://api.weather.gov
+  user_agent: weather-market-bot/0.1
