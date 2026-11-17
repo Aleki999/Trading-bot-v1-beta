@@ -1,9 +1,4 @@
-# Trading bot v1 (beta)
-
-Two separate projects live here: an ETF research engine (`tradingbot/`) and a Kalshi weather-market
-bot (`kalshibot/`, described at the end).
-
-## ETF research engine
+# tradingbot
 
 Research code for a daily-bar ETF trading system: a trend-switch **core** that holds most of the money,
 plus short-term **sleeves** (dip-buy and breakout), each of which has to pass a fixed set of gates
@@ -85,38 +80,3 @@ tradingbot/permutation.py bar shuffling and the permutation test
 tradingbot/account.py     sleeve selection and the combined account
 tradingbot/cli.py         the commands above
 ```
-
-## Kalshi weather bot (`kalshibot/`)
-
-Compares the National Weather Service forecast high for Austin with the prices of Kalshi's daily
-high-temperature buckets, following the rules from a public video tutorial.
-
-- **Model:** tomorrow's high is a bell curve centred on the NWS forecast with a 3F spread. Each
-  bucket's fair chance is the part of the curve that falls inside it.
-- **Rule:** edge = fair chance minus the ask, in points. Buy YES on the bucket with the largest edge
-  if it is at least 10 points; otherwise pass. Hold to settlement.
-- **Limits:** $1 per trade including the fee, one trade per day.
-
-```
-python -m kalshibot.bot            # one paper run: prints the table, logs the decision
-python -m kalshibot.bot --loop     # repeat every 5 minutes
-python -m kalshibot.scorecard      # wins, cost and profit once markets settle
-```
-
-Paper mode needs no account. Decisions go to `kalshi_data/decisions.jsonl` and `kalshi_data/bot.log`.
-
-Live trading needs all three: `dry_run: false` in `config/kalshi.yaml`, the `--live` flag, and the
-environment variables `KALSHI_API_KEY_ID` and `KALSHI_PRIVATE_KEY_PATH` (keep the key file out of
-git; `*.key` and `*.pem` are ignored). **The live order path has only been tested against a fake
-exchange, never against a real Kalshi account.**
-
-What to know before trusting it:
-
-- There is no backtest. The weather service does not publish past forecasts through this API, so the
-  only evidence is the paper scorecard, which needs weeks of settled days to mean anything.
-- The 3F spread is an assumption taken from the video, not measured.
-- A simple bell curve tends to find its "edge" on cheap buckets the market thinks unlikely. On the
-  first live sample the market put about 92% on 66-69F while the NWS point forecast was 65F; the
-  market may simply know more than this model does.
-- Kalshi's API changed after the video was made: prices are dollar strings and orders go to
-  `/portfolio/events/orders`. This client follows the documentation as of 2026-11-17.

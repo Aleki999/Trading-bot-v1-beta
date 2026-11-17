@@ -4,6 +4,3 @@ __pycache__/
 .pytest_cache/
 data/*.parquet
 results/
-kalshi_data/
-*.key
-*.pem
